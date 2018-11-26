@@ -1,0 +1,7 @@
+/* table {
+    overflow-x: auto;
+} */
+thead tr {
+    position: sticky !important;
+    top: 0;
+}
