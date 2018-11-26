@@ -1,0 +1,10 @@
+Create blade layouts and components for header (with navigation),
+                                        sidebar,
+                                        footer,
+                                        pagination,
+                                        breadcrumbs,
+                                        menu with categories etc. (make it dynamic, using database queries (create a table for categories))
+
+Create either seeds or factories for database model +
+Test and play a bit with data, trying to get it through AJAX requests, using Vue.js and jQuery
+Check out modal dialogs in Bootstrap
