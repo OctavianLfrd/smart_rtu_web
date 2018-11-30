@@ -8,9 +8,9 @@
             <div class="collapse navbar-collapse" id="navbar-links">
                 <ul class="navbar-nav">
                     <li class="nav-item col"><a href="/" class="nav-link text-light"><i class="material-icons d-inline">home</i>Home</a></li>
-                    <li class="nav-item col"><a href="/adlist" class="nav-link text-light"><i class="material-icons d-inline">pageview</i>View</a></li>
-                    <li class="nav-item col"><a href="/edit" class="nav-link text-light"><i class="material-icons d-inline">mode_edit</i>Edit</a></li>
-                    <li class="nav-item col"><a href="/create" class="nav-link text-light"><i class="material-icons d-inline">note_add</i>Create</a></li>
+                    <li class="nav-item col"><a href="/ads/list" class="nav-link text-light"><i class="material-icons d-inline">pageview</i>View</a></li>
+                    <li class="nav-item col"><a href="/ads/edit" class="nav-link text-light"><i class="material-icons d-inline">mode_edit</i>Edit</a></li>
+                    <li class="nav-item col"><a href="/ads/create" class="nav-link text-light"><i class="material-icons d-inline">note_add</i>Create</a></li>
                 </ul>
             </div>
         </nav>

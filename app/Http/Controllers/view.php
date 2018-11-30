@@ -8,21 +8,35 @@ use Illuminate\Support\Facades\Db;
 class view extends Controller
 {
     public function adlist () {
-        // SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "ads_table"
         $thead =  DB::table("information_schema.columns")->select("column_name")
                                                          ->where("table_name", "ads_table")
                                                          ->get();
         $thead = json_decode($thead);
-        $t = [];
 
-        foreach ($thead as $th) {
-            $t[] = preg_replace("/_/", " ", $th->column_name);
+        return view("view", ["thead" => $thead]);
+    }
+
+    public function listAds () {
+        $tbody = DB::table("ads_table")->take(10)->get()->toJson();
+        echo $tbody;
+    }
+
+    public function listAdsByPage ($page = 1) {
+        $tbody = DB::table("ads_table")->skip(($page - 1) * 10)->take(10)->get()->toJson();
+        echo $tbody;
+    }
+
+    public function deleteAds (Request $request) {
+        if($request->has("ads")) {
+            $del_recs = $request->input("ads");
+            $query = null;
+
+            // foreach ($del_recs as $key => $rec) {
+                $query = DB::table("ads_table")->select("id", "name")->whereRaw("id IN (" . implode($del_recs, ", ") . ")")->get()->toJson();
+                DB::table("ads_table")->whereRaw("id IN (" . implode($del_recs, ", ") . ")")->delete();
+            // }
+
+            return $query;
         }
-        unset($thead);
-
-        // SELECT * FROM ads_table
-        $tbody = DB::table("ads_table")->get();
-
-        return view("view", ["thead" => $t, "tbody" => $tbody]);
     }
 }

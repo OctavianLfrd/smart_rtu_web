@@ -11,5 +11,12 @@
 |
 */
 
+//______REDIRECTIONS_______________________________________________________
+Route::redirect('/ads', '/ads/list/1');
+Route::redirect('/ads/list', '/ads/list/1');
+//______MAIN_PAGE__________________________________________________________
 Route::get('/', 'index@index');
-Route::get('/adlist', 'view@adlist');
+//______VIEW_ADVERTISEMENTS________________________________________________
+Route::get('/ads/list/{page}', "view@adlist");
+Route::get('/ads/list/{page}/show', "view@listAdsByPage");
+Route::delete('/ads/delete', "view@deleteAds");

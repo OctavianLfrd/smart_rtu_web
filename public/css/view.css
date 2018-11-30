@@ -1,7 +1,44 @@
-/* table {
-    overflow-x: auto;
-} */
+h1 {
+    padding-top: 2.5% !important;
+    padding-bottom: 0 !important;
+}
 thead tr {
     position: sticky !important;
     top: 0;
+}
+footer {
+    position: static !important;
+    margin-top: 12% !important;
+}
+h1 {
+    padding: 5%;
+}
+th i {
+    text-transform: lowercase !important;
+}
+th:hover {
+    text-decoration: underline !important;
+    text-shadow: 1px 1px 1px hsl(0, 0%, 50%);
+    cursor: pointer;
+}
+th div .badge {
+    text-shadow: none !important;
+}
+th div .badge:hover {
+    text-decoration: underline;
+}
+#table-controls {
+    margin-bottom: 10px;
+    padding: 5px;
+}
+.modal-body {
+    word-wrap: break-word !important;
+}
+.modal table {
+    margin: auto;
+    width: min-content !important;
+}
+.modal-title i{
+    font-size: 24px !important;
+    vertical-align: -15%;
 }

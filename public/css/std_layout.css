@@ -1,3 +1,6 @@
+[v-cloak] {
+    display: none !important;
+}
 nav {
     width: 100% !important;
 }
