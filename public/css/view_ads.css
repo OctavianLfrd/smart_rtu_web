@@ -1,0 +1,103 @@
+h1 {
+    padding-top: 2.5% !important;
+    padding-bottom: 0 !important;
+}
+thead th {
+    position: sticky !important;
+    top: 0;
+}
+footer {
+    position: static !important;
+    margin-top: 12% !important;
+}
+th i {
+    text-transform: lowercase !important;
+}
+th:hover{
+    text-decoration: underline !important;
+    text-shadow: 1px 1px 1px hsl(0, 0%, 70%);
+    cursor: pointer !important;
+}
+th div .badge {
+    text-shadow: none !important;
+}
+th div .badge:hover {
+    text-decoration: underline;
+}
+#table-controls {
+    margin-bottom: 10px;
+    padding: 5px;
+}
+.modal-body {
+    word-wrap: break-word !important;
+}
+.modal table {
+    margin: auto;
+    width: min-content !important;
+}
+.modal-title i {
+    font-size: 24px !important;
+    vertical-align: -15%;
+}
+#adTable {
+    margin: auto;
+    width: fit-content;
+}
+#adTable thead {
+    background-clip: content-box !important;
+    background-origin: content-box !important;
+}
+.dropdown-toggle::after {
+    display: none;
+}
+.dropdown-item {
+    cursor: default;
+}
+li, .btn-link:active{
+    background-color: initial !important;
+}
+[data-type="name"]:hover {
+    text-decoration: underline;
+    text-shadow: 1px 1px 1px hsl(0, 0%, 70%);
+    cursor: pointer;
+}
+/*/////////////////////////*/
+input[type="checkbox"].switchbox {
+	font-size: 30px;
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+	        appearance: none;
+	width: 1.2em;
+	height: 0.65em;
+	background: #ddd;
+	border-radius: 3em;
+	position: relative;
+	cursor: pointer;
+	outline: none;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+  }
+
+  input[type="checkbox"].switchbox:checked {
+	background: #0ebeff;
+  }
+
+  input[type="checkbox"].switchbox:after {
+	position: absolute;
+	content: "";
+	width: 0.65em;
+	height: 0.65em;
+	border-radius: 50%;
+	background: #fff;
+	-webkit-box-shadow: 0 0 .25em rgba(0,0,0,.3);
+	        box-shadow: 0 0 .25em rgba(0,0,0,.3);
+	-webkit-transform: scale(.7);
+	        transform: scale(.7);
+	left: 0;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+  }
+
+  input[type="checkbox"].switchbox:checked:after {
+	left: calc(100% - 0.65em);
+  }

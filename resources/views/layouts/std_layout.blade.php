@@ -11,7 +11,6 @@
     {{-- Vue.js --}}
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-    <link rel="stylesheet" href="{{ asset('css/std_layout.css') }}">
     {{-- <!-- Latest compiled and minified CSS --> --}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
@@ -24,9 +23,14 @@
     {{-- <!-- Latest compiled JavaScript --> --}}
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
+    {{-- Pretty-checkboxes --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+
 
     {{-- Google Material Icons --}}
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link rel="stylesheet" href="{{ asset('css/std_layout.css') }}">
     @show
 </head>
 <body>

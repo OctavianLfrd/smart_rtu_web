@@ -14,14 +14,15 @@ class CreateAdsTable extends Migration
     public function up()
     {
         Schema::create('ads_table', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->charset = 'utf8';
+            $table->engine    = 'InnoDB';
+            $table->charset   = 'utf8';
             $table->collation = 'utf8_unicode_ci';
 
         // COLUMNS____________________________________________
 
         /*id*/                      $table->increments('id');
         /*name*/                    $table->string('name', 64);
+        /*owner*/                   $table->string('owner', 20);
         /*type*/                    $table->enum('type', ['simple', 'markup', 'img', 'simple_img', 'markup_img']) ->default('simple');
         /*text*/                    $table->text('text')                                                          ->nullable();
         /*image_name*/              $table->string('image_name', 60)                                              ->nullable();
