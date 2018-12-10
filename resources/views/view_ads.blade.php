@@ -48,8 +48,11 @@
                             </div>
                         </div>
                     </td>
-                    <td :title="tr.name        " data-type="name"><span v-if="nameVisible[index]" @click="nameVisibility(false, index)">${ tr.name        }$</span>
-                        <div v-else class="form-group"><input type="text" class="form-control input-sm"><button class="btn btn-outline-info btn-sm">Mainīt</button></div>
+                    <td :title="tr.name        " data-type="name"><span @click="editName($event)">${ tr.name        }$</span>
+                        <div class="form-group" style="display: none">
+                            <input type="text" class="form-control form-control-sm col-10 float-left">
+                            <button class="btn btn-outline-info btn-sm col-2 float-right" @click="updateName($event, tr.id)">Mainīt</button>
+                        </div>
                     </td>
                     <td :title="tr.owner       " data-type="owner">       ${ tr.owner       }$</td>
                     <td :title="tr.type        " data-type="type">        ${ tr.type        }$</td>
@@ -57,7 +60,7 @@
                     <td :title="tr.finishes_at " data-type="finishes_at"> ${ tr.finishes_at }$</td>
                     <td :title="tr.priority    " data-type="priority">    ${ tr.priority    }$</td>
                     <td data-type="enabled">
-                        <input class="enabled switchbox" type="checkbox" :value="tr.enabled" v-model="tr.enabled" @change="toggleEnabled($event, tr.id)">
+                        <input class="enabled switchbox" type="checkbox" :value="tr.enabled" v-model="tr.enabled" @change="updateEnabled($event, tr.id)">
                     </td>
                     <td class="text-center align-middle">
                         <div>

@@ -8,7 +8,6 @@ var view = new Vue({
         buttonEnabled: false,
         arrows: null,
         checkedRows: [],
-        nameVisible: [],
         showAds: {
             type: "GET",
             url: document.URL + "/list",
@@ -26,7 +25,7 @@ var view = new Vue({
             }
         });
 
-        $.ajax(this.showAds).then(() => this.nameVisibility(true));
+        $.ajax(this.showAds);
     },
     methods: {
         cellContent: function(value) {
@@ -40,15 +39,11 @@ var view = new Vue({
             }
             return value;
         },
-        nameVisibility: function(value, index) {
-            if (typeof value !== "undefined" && typeof index !== "undefined")
-                this.nameVisible[index] = value;
-            else {
-                this.nameVisible = [];
-                this.tbody.forEach(() => {
-                    this.nameVisible.push(value);
-                });
-            }
+        editName: function(e) {
+            let that = $(e.target);
+            that.css("display", "none");
+            that.next("div").css("display", "initial");
+            that.next("div").children("input").focus();
         },
         sortRows: function(e) {},
 
@@ -107,21 +102,38 @@ var view = new Vue({
                 $("#table-controls button").removeAttr("disabled");
             else $("#table-controls button").attr("disabled", true);
         },
-        toggleEnabled: function(e, id) {
-            var e = e.target.value;
-            e = e == 1 ? 0 : 1;
-            console.log(e);
+        updateName: function(e, id) {
+            let that = $(e.target);
+            that.parent().css("display", "none");
+            that.parent().prev().css("display", "initial");
+            var value = $(e.target).prev("input").val();
             $.ajax({
                 url: document.URL,
                 type: "PATCH",
                 data: {
                     id: id,
-                    enabled: e
+                    name: value
+                },
+                success: function(response) {
+                    $.ajax(view.showAds);
+                    /*________________*/
+                }
+            })
+        },
+        updateEnabled: function(e, id) {
+            var value = e.target.value;
+            value = value == 1 ? 0 : 1;
+            $.ajax({
+                url: document.URL,
+                type: "PATCH",
+                data: {
+                    id: id,
+                    enabled: value
                 },
                 success: function(response) {
                     /*_____________________ */
                 }
             });
-        }
+        },
     }
 });
