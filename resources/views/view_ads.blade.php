@@ -15,10 +15,9 @@
     {{--  ADVERT TABLE  --}}
 
     <div class="table-responsive">
-        <table class="table table-striped float-center table-fixed small table-sm d-block border border-info rounded" id="adTable">  {{-- WHY IS TABLE-FIXED AND SOME OTHER CLASSES NOT WORKING --}}
+        <table class="table table-striped float-center table-fixed small table-sm d-block border border-info rounded" id="adTable">
             <thead class="text-info text-center bg-light">
                 <tr>
-                    {{-- <th class="align-text-left"><div class="form-check"><span class="badge bg-white text-dark" @click="selectAll(); buttonActive()">Select All</span></div></th> --}}
                     <td class="align-middle text-left">
                         <div class="pretty p-icon p-round p-jelly">
                             <input type="checkbox" id="select-all" @change="selectAll(); buttonActive()">
@@ -28,13 +27,13 @@
                             </div>
                         </div>
                     </td>
-                    <th class="align-middle text-left" @click="sortRows"><span class="th-content d-inline text-capitalize" value="name" @click="sortRows">Vārds</span></th>
-                    <th class="align-middle text-left" @click="sortRows"><span class="th-content d-inline text-capitalize" value="owner">Īpašnieks</span></th>
-                    <th class="align-middle text-left" @click="sortRows"><span class="th-content d-inline text-capitalize" value="type">Tips</span></th>
-                    <th class="align-middle text-left" @click="sortRows"><span class="th-content d-inline text-capitalize" value="starts_at">Sākuma datums</span></th>
-                    <th class="align-middle text-left" @click="sortRows"><span class="th-content d-inline text-capitalize" value="finishes_at">Beigu datums</span></th>
-                    <th class="align-middle text-left" @click="sortRows"><span class="th-content d-inline text-capitalize" value="priority">Prioritāte</span></th>
-                    <th class="align-middle text-left" @click="sortRows"><span class="th-content d-inline text-capitalize" value="enabled">Aktīvs</span></th>
+                    <th class="align-middle text-left" @click="sortRows($event)"><span class="th-content d-inline text-capitalize" data-order="true" value="name" @click="sortRows">Vārds</span></th>
+                    <th class="align-middle text-left" @click="sortRows($event)"><span class="th-content d-inline text-capitalize" data-order="true" value="owner">Īpašnieks</span></th>
+                    <th class="align-middle text-left" @click="sortRows($event)"><span class="th-content d-inline text-capitalize" data-order="true" value="type">Tips</span></th>
+                    <th class="align-middle text-left" @click="sortRows($event)"><span class="th-content d-inline text-capitalize" data-order="true" value="starts_at">Sākuma datums</span></th>
+                    <th class="align-middle text-left" @click="sortRows($event)"><span class="th-content d-inline text-capitalize" data-order="true" value="finishes_at">Beigu datums</span></th>
+                    <th class="align-middle text-left" @click="sortRows($event)"><span class="th-content d-inline text-capitalize" data-order="true" value="priority">Prioritāte</span></th>
+                    <th class="align-middle text-left" @click="sortRows($event)"><span class="th-content d-inline text-capitalize" data-order="true" value="enabled">Aktīvs</span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -58,13 +57,21 @@
                     <td :title="tr.type        " data-type="type">        ${ tr.type        }$</td>
                     <td :title="tr.starts_at   " data-type="starts_at">   ${ tr.starts_at   }$</td>
                     <td :title="tr.finishes_at " data-type="finishes_at"> ${ tr.finishes_at }$</td>
-                    <td :title="tr.priority    " data-type="priority">    ${ tr.priority    }$</td>
+                    <td :title="tr.priority    " data-type="priority">
+                        <button class="dropdown-toggle btn btn-sm btn-link text-dark" data-toggle="dropdown"> ${ tr.priority }$ </button>
+                        <ul class="dropdown-menu collapse text-dark">
+                            <li class="dropdown-item"><button class="btn btn-sm btn-link text-dark" @click="updatePriority($event, tr.id)">low        </button></li>
+                            <li class="dropdown-item"><button class="btn btn-sm btn-link text-dark" @click="updatePriority($event, tr.id)">medium     </button></li>
+                            <li class="dropdown-item"><button class="btn btn-sm btn-link text-dark" @click="updatePriority($event, tr.id)">high       </button></li>
+                            <li class="dropdown-item"><button class="btn btn-sm btn-link text-dark" @click="updatePriority($event, tr.id)">EXCEPTIONAL</button></li>
+                        </ul>
+                    </td>
                     <td data-type="enabled">
                         <input class="enabled switchbox" type="checkbox" :value="tr.enabled" v-model="tr.enabled" @change="updateEnabled($event, tr.id)">
                     </td>
                     <td class="text-center align-middle">
                         <div>
-                            <button class="text-danger close cross dropdown-toggle" data-toggle="dropdown">&times;</button>
+                            <button class="text-danger close dropdown-toggle" data-toggle="dropdown">&times;</button>
                             <ul class="dropdown-menu collapse">
                                 <h6 class="dropdown-header text-info">Delete this ad?</h6>
                                 <li class="dropdown-item"><button class="btn btn-link text-success" @click="deleteOne(tr.id)">Yes</button></li>

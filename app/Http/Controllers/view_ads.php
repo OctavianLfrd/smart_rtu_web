@@ -11,7 +11,7 @@ class view_ads extends Controller
 
     public function adList () {
         $response = DB::table("ads_table")->select(array_merge($this::thead, ["id"]))->get()->toJson();
-        echo $response;
+        return $response;
     }
 
     public function deleteAds (Request $request) {

@@ -1,4 +1,4 @@
-var view = new Vue({
+const view = new Vue({
     el: "main",
     delimiters: ["${", "}$"],
     data: {
@@ -8,6 +8,7 @@ var view = new Vue({
         buttonEnabled: false,
         arrows: null,
         checkedRows: [],
+        filtrationMode: false,
         showAds: {
             type: "GET",
             url: document.URL + "/list",
@@ -45,7 +46,13 @@ var view = new Vue({
             that.next("div").css("display", "initial");
             that.next("div").children("input").focus();
         },
-        sortRows: function(e) {},
+        sortRows: function(e) {
+            // var order =  $(e.target).children(".th-content").attr("data-order");
+            // $.ajax({
+            //     url: document.URL,
+            //     type:
+            // });
+        },
 
         deleteRows: function() {
             $.ajax({
@@ -106,13 +113,13 @@ var view = new Vue({
             let that = $(e.target);
             that.parent().css("display", "none");
             that.parent().prev().css("display", "initial");
-            var value = $(e.target).prev("input").val();
+            var name = $(e.target).prev("input").val();
             $.ajax({
                 url: document.URL,
                 type: "PATCH",
                 data: {
                     id: id,
-                    name: value
+                    name: name
                 },
                 success: function(response) {
                     $.ajax(view.showAds);
@@ -120,15 +127,30 @@ var view = new Vue({
                 }
             })
         },
+        updatePriority: function(e, id) {
+            var priority = e.target.innerText;
+            $.ajax({
+               url: document.URL,
+               type: "PATCH",
+               data: {
+                   id: id,
+                   priority: priority
+               },
+               success: function(response) {
+                   $.ajax(view.showAds);
+                   /*___________________*/
+               }
+            });
+        },
         updateEnabled: function(e, id) {
-            var value = e.target.value;
-            value = value == 1 ? 0 : 1;
+            var enabled = e.target.value;
+            enabled = enabled == 1 ? 0 : 1;
             $.ajax({
                 url: document.URL,
                 type: "PATCH",
                 data: {
                     id: id,
-                    enabled: value
+                    enabled: enabled
                 },
                 success: function(response) {
                     /*_____________________ */
