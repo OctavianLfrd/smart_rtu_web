@@ -9,7 +9,7 @@
                 {{ $slot }}
             </div>
             <div class="modal-footer" data-dismiss="modal">
-                <button class="btn btn-outline-warning" @click="deleteRows">Yes</button>
+                <button class="btn btn-outline-warning" @click="{{ $delete_function }}">Yes</button>
                 <button class="btn btn-outline-dark">No</button>
             </div>
         </div>

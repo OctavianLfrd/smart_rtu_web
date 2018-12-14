@@ -2,21 +2,27 @@ const view = new Vue({
     el: "main",
     delimiters: ["${", "}$"],
     data: {
-        tbody: [],
+        ads: [],
         deleted: [],
-        sorting: true,
         buttonEnabled: false,
-        arrows: null,
         checkedRows: [],
-        filtrationMode: false,
-        showAds: {
+        loadAds: {
             type: "GET",
             url: document.URL + "/list",
             success: function(response) {
-                view.tbody = response;
+                view.ads = response;
             },
-            dataType: "json",
-            async: true
+            dataType: "json"
+        },
+        advert: {
+            name:        null,
+            owner:       null,
+            text:        null,
+            type:        null,
+            starts_at:   null,
+            finishes_at: null,
+            priority:    null,
+            enabled:     null
         }
     },
     mounted: function() {
@@ -26,94 +32,36 @@ const view = new Vue({
             }
         });
 
-        $.ajax(this.showAds);
+        $.ajax(this.loadAds);
     },
     methods: {
-        cellContent: function(value) {
-            if (
-                typeof value == "string" &&
-                value.length > 10 &&
-                value != "EXCEPTIONAL"
-            ) {
-                value = value.substr(0, 10) + "...";
-                return value;
+/*__________________________________________________________________REST_METHODS_________________________________________________________________*/
+        viewAd: function(index) {
+            const ads = this.ads[index];
+            const id = ads.id;
+            for (let prop in ads) {
+                if (prop !== "id")
+                    this.advert[prop] = ads[prop];
             }
-            return value;
-        },
-        editName: function(e) {
-            let that = $(e.target);
-            that.css("display", "none");
-            that.next("div").css("display", "initial");
-            that.next("div").children("input").focus();
-        },
-        sortRows: function(e) {
-            // var order =  $(e.target).children(".th-content").attr("data-order");
-            // $.ajax({
-            //     url: document.URL,
-            //     type:
-            // });
-        },
-
-        deleteRows: function() {
             $.ajax({
-                url: document.URL,
-                type: "DELETE",
-                data: {
-                    ads: view.checkedRows
-                },
+                url: document.URL + "/text",
+                type: "GET",
+                data: { id: id },
                 success: function(response) {
-                    view.checkedRows = [];
-                    $.ajax(view.showAds);
-                    view.deleted = response;
-                    view.selectAll(true);
-                    $("#deleteComplete").modal();
+                    view.advert.text = response[0].text;
                 },
                 dataType: "json"
-            });
+            })
+            $("#view-ads").modal();
         },
-        deleteOne: function(deleteThis) {
-            $.ajax({
-                url: document.URL,
-                type: "DELETE",
-                data: {
-                    ads: deleteThis
-                },
-                success: function(response) {
-                    /*____________________*/
-                    view.selectAll(true);
-                    $.ajax(view.showAds);
-                },
-                dataType: "json"
-            });
-        },
-        selectAll: function(uncheck) {
-            let falseV = false;
-            let cb = $("tr td [type=checkbox].select");
+        updateName: function(index, event) {
+            const ads = this.ads[index];
+            const id = ads.id;
+            const element = $(event.target);
+            const name = element.prev().val();
+            element.parent().css("display", "none");
+            element.parent().prev().css("display", "initial");
 
-            for (let i = 0; i < cb.length; i++) {
-                if (
-                    !$("tr td [type=checkbox].select:eq(" + i + ")").prop(
-                        "checked"
-                    )
-                ) {
-                    falseV = true;
-                    break;
-                }
-            }
-            if (uncheck != true) {
-                falseV ? cb.prop("checked", true) : cb.prop("checked", false);
-            } else cb.prop("checked", false);
-        },
-        buttonActive: function() {
-            if ($("[type=checkbox].select:checked").length > 0)
-                $("#table-controls button").removeAttr("disabled");
-            else $("#table-controls button").attr("disabled", true);
-        },
-        updateName: function(e, id) {
-            let that = $(e.target);
-            that.parent().css("display", "none");
-            that.parent().prev().css("display", "initial");
-            var name = $(e.target).prev("input").val();
             $.ajax({
                 url: document.URL,
                 type: "PATCH",
@@ -122,29 +70,32 @@ const view = new Vue({
                     name: name
                 },
                 success: function(response) {
-                    $.ajax(view.showAds);
-                    /*________________*/
-                }
+                    view.ads[index].name = response[0].name;
+                },
+                dataType: "json"
             })
         },
-        updatePriority: function(e, id) {
-            var priority = e.target.innerText;
+        updatePriority: function(index, priority) {
+            const ads = this.ads[index];
+            const id = ads.id;
             $.ajax({
-               url: document.URL,
-               type: "PATCH",
-               data: {
-                   id: id,
-                   priority: priority
-               },
-               success: function(response) {
-                   $.ajax(view.showAds);
-                   /*___________________*/
-               }
+            url: document.URL,
+            type: "PATCH",
+            data: {
+                id: id,
+                priority: priority
+            },
+            success: function(response) {
+                view.ads[index].priority = response[0].priority;
+            },
+            dataType: "json"
             });
         },
-        updateEnabled: function(e, id) {
-            var enabled = e.target.value;
-            enabled = enabled == 1 ? 0 : 1;
+        updateEnabled: function(index) {
+            const ads = this.ads[index];
+            const id = ads.id;
+            let enabled = 0;
+            if (ads.enabled == 0) enabled = 1;
             $.ajax({
                 url: document.URL,
                 type: "PATCH",
@@ -153,9 +104,105 @@ const view = new Vue({
                     enabled: enabled
                 },
                 success: function(response) {
-                    /*_____________________ */
-                }
+                    view.ads[index].enabled = response[0].enabled;
+                },
+                dataType: "json"
             });
         },
+        deleteAds: function(index) {
+            let id = this.checkedRows;
+            let showModalOnComplete = true;
+            if (typeof this.ads[index] !== "undefined") {
+                id = this.ads[index].id;
+                showModalOnComplete = false;
+            }
+            $.ajax({
+                url: document.URL,
+                type: "DELETE",
+                data: {id: id},
+                success: function(response) {
+                    view.checkedRows = [];
+                    $("#select-all").prop("checked", false);
+                    $.ajax(view.loadAds);
+                    if (showModalOnComplete) {
+                        view.deleted = response;
+                        $("#delete-complete").modal();
+                    }
+                },
+                dataType: "json"
+            })
+        },
+        sortRows: function(event) {
+            const element = $(event.target);
+            let sortColumn = element.attr("data-value");
+            let sortDirection =  element.attr("data-order");
+            $.ajax({
+                url: document.URL + "/sort",
+                type: "GET",
+                data: {
+                    sortColumn: sortColumn,
+                    sortDirection: sortDirection
+                },
+                success: function(response) {
+                    view.ads = response;
+                    sortDirection = sortDirection == "asc" ? "desc" : "asc";
+                    element.attr("data-order", sortDirection);
+                },
+                dataType: "json"
+            });
+        },
+        editName: function(event) {
+            const element = $(event.target);
+            element.css("display", "none");
+            element.next("div").css("display", "initial");
+            element.next("div").children("input").focus();
+        },
+        selectAll: function() {
+            let select = false;
+            const CB = "[type=checkbox].select";
+
+            for (let i = 0; i < $(CB).length; i++) {
+                if (!$(CB + ":eq(" + i + ")").is(":checked")) {
+                    select = true;
+                    break;
+                }
+            }
+            if (select)
+                $(CB).prop("checked", true)
+            else
+                $(CB).prop("checked", false);
+        },
+        buttonActive: function() {
+            if ($("[type=checkbox].select:checked").length > 0)
+                $("#table-controls button").removeAttr("disabled");
+            else
+                $("#table-controls button").attr("disabled", true);
+        }
+    },
+    computed: {
+        type: function() {
+            if (this.advert.type == "simple") return "vienkāršs";
+            else if (this.advert.type == "markup") return "iezīmēts teksts"
+            else if (this.advert.type == "img") return "attēls";
+            else if (this.advert.type == "simple_img") return "vienkāršs ar attēlu";
+            else return "iezīmēts teksts ar attēlu";
+        },
+        priority: function() {
+            if (this.advert.priority == "low") return "zema";
+            else if (this.advert.priority == "medium") return "vidēja";
+            else if (this.advert.priority == "high") return "augsta";
+            else return "IZŅĒMUMA";
+        },
+        enabled: function() {
+            if (this.advert.enabled == 1) return "Jā";
+            return "Nē";
+        }
+    },
+    filters: {
+        shorten: function(value) {
+            if (value.length > 15)
+                value = value.substring(0, 15) + "...";
+            return value;
+        }
     }
 });

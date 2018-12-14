@@ -13,7 +13,7 @@ footer {
 th i {
     text-transform: lowercase !important;
 }
-th:hover{
+#ad-table th:hover{
     text-decoration: underline !important;
     text-shadow: 1px 1px 1px hsl(0, 0%, 70%);
     cursor: pointer !important;
@@ -39,13 +39,14 @@ th div .badge:hover {
     font-size: 24px !important;
     vertical-align: -15%;
 }
-#adTable {
+#ad-table {
     margin: auto;
     width: fit-content;
 }
-#adTable thead {
+#ad-table thead {
     background-clip: content-box !important;
     background-origin: content-box !important;
+    table-layout: fixed;
 }
 .dropdown-toggle::after {
     display: none;
@@ -60,6 +61,21 @@ li, .btn-link:active{
     text-decoration: underline;
     text-shadow: 1px 1px 1px hsl(0, 0%, 70%);
     cursor: pointer;
+}
+.view-icon {
+    cursor: pointer;
+    margin: 0 0.2rem;
+    font-size: 20px !important;
+}
+.view-icon:hover {
+    color: #178385 !important;
+}
+#view-ads .modal-dialog{
+    max-width: 700px !important;
+}
+#view-ads .modal-footer {
+    display: initial !important;
+    justify-content: normal !important;
 }
 /*/////////////////////////*/
 input[type="checkbox"].switchbox {

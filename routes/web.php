@@ -16,6 +16,8 @@ Route::get('/', 'index@index');
 //______VIEW_ADVERTISEMENTS________________________________________________
 Route::get('/ads', "ads_page");
 Route::get('/ads/list', "view_ads@adList");
+Route::get('/ads/sort', "view_ads@sortAds");
+Route::get('/ads/text', "view_ads@getText");
 Route::delete('/ads', "view_ads@deleteAds");
 Route::patch('/ads', "view_ads@updateAds");
 
