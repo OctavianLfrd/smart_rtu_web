@@ -7,7 +7,7 @@
             <div class="modal-body">
                 <p class="text-right text-info"><span class="text-secondary font-weight-light">Sūtītājs:</span> {{ $owner }}</p>
                 <hr class="text-info">
-                <div class="container text-center font-weight-light">
+                <div class="container text-center">
                     {{ $text }}
                 </div>
             </div>

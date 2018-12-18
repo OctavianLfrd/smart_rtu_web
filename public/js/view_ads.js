@@ -151,6 +151,7 @@ const view = new Vue({
                 dataType: "json"
             });
         },
+/*___________________________________________________________________OTHER_METHODS_______________________________________________________________*/
         editName: function(event) {
             const element = $(event.target);
             element.css("display", "none");

@@ -29,8 +29,8 @@ class CreateAdsTable extends Migration
         /*scaling*/                 $table->decimal('scaling', 4, 2)                                              ->nullable();
         /*bg_type*/                 $table->enum('bg_type', ['normal', 'custom_image'])                           ->default('normal');
         /*bg_image_name*/           $table->string('bg_image_name', 32)                                           ->nullable();
-        /*starts_at*/               $table->timestamp('starts_at');
-        /*finishes_at*/             $table->timestamp('finishes_at');
+        /*starts_at*/               $table->timestamp('starts_at')                                                ->nullable();
+        /*finishes_at*/             $table->timestamp('finishes_at')                                              ->nullable();
         /*created_at & updated_at*/ $table->timestamps();
         /*priority*/                $table->enum('priority', ['EXCEPTIONAL', 'high', 'medium', 'low'])            ->default('medium');
         /*enabled*/                 $table->boolean('enabled')                                                    ->default(true);
@@ -44,6 +44,6 @@ class CreateAdsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ads_tables');
+        Schema::dropIfExists('ads_table');
     }
 }
